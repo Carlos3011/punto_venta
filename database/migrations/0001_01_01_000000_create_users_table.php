@@ -11,6 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
+        Schema::create('roles', function (Blueprint $table) {
+            $table->id();
+            $table->string('nombre')->unique();
+            $table->timestamps();
+        });
+
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
@@ -18,6 +24,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
+            $table->foreignId('role_id')->default(2)->constrained('roles');
             $table->timestamps();
         });
 
@@ -35,6 +42,49 @@ return new class extends Migration
             $table->longText('payload');
             $table->integer('last_activity')->index();
         });
+
+        DB::table('roles')->insert([
+            ['nombre' => 'admin'],
+            ['nombre' => 'cajero'],
+            ['nombre' => 'almacenista'],
+            ['nombre' => 'instalador']
+        ]);
+
+        DB::table('users')->insert([
+            'name' => 'admin',
+            'email' => 'admin@admin.com',
+            'password' => bcrypt('admin123'),
+            'role_id' => 1,
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+
+        DB::table('users')->insert([
+            'name' => 'cajero',
+            'email' => 'cajero@cajero.com',
+            'password' => bcrypt('cajero123'),
+            'role_id' => 2,
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+
+        DB::table('users')->insert([
+            'name' => 'almacenista',
+            'email' => 'almacenista@almacenista.com',
+            'password' => bcrypt('almacneista123'),
+            'role_id' => 3,
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+
+        DB::table('users')->insert([
+            'name' => 'instalador',
+            'email' => 'instalador@instalador.com',
+            'password' => bcrypt('instalador123'),
+            'role_id' => 4,
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
     }
 
     /**
@@ -42,6 +92,7 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::dropIfExists('roles');
         Schema::dropIfExists('users');
         Schema::dropIfExists('password_reset_tokens');
         Schema::dropIfExists('sessions');
