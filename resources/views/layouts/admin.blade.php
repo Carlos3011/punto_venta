@@ -13,11 +13,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
-    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     
     <!-- Scripts -->
-    @vite(['resources/css/app.css', 'resources/js/app.js',  'resources/js/alpine.js', 'resources/js/sweetalert.js', 'resources/js/chart.js', 'resources/js/tabulator-tables.js'])
+    @vite(['resources/css/app.css', 'resources/js/app.js',  'resources/js/alpine.js', 'resources/js/sweetalert.js', 'resources/js/chart.js'])
 </head>
 <body class="font-sans antialiased">
     <div class="min-h-screen bg-gray-100">
@@ -40,9 +38,15 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#" class="flex items-center px-4 py-3.5 text-white/90 hover:text-white rounded-xl transition-all duration-300 group {{ Route::is('admin.users') ? 'bg-gradient-to-r from-orange-500 to-orange-400 shadow-lg font-semibold border-l-4 border-orange-300' : 'hover:bg-gradient-to-r hover:from-orange-500 hover:to-orange-400 hover:shadow-lg hover:scale-[1.02]' }} ">
+                        <a href="{{ route('admin.users.index') }}" class="flex items-center px-4 py-3.5 text-white/90 hover:text-white rounded-xl transition-all duration-300 group {{ Route::is('admin.users.index') ? 'bg-gradient-to-r from-orange-500 to-orange-400 shadow-lg font-semibold border-l-4 border-orange-300' : 'hover:bg-gradient-to-r hover:from-orange-500 hover:to-orange-400 hover:shadow-lg hover:scale-[1.02]' }} ">
                             <i class="fa-solid fa-users w-5 h-5 text-white transition duration-75 group-hover:text-orange-200"></i>
                             <span class="ml-3 text-[15px] tracking-wide">Gestión de Usuarios</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('admin.category.index') }}" class="flex items-center px-4 py-3.5 text-white/90 hover:text-white rounded-xl transition-all duration-300 group {{ Route::is('admin.category.index') ? 'bg-gradient-to-r from-orange-500 to-orange-400 shadow-lg font-semibold border-l-4 border-orange-300' : 'hover:bg-gradient-to-r hover:from-orange-500 hover:to-orange-400 hover:shadow-lg hover:scale-[1.02]' }} ">
+                            <i class="fa-solid fa-list w-5 h-5 text-white transition duration-75 group-hover:text-orange-200"></i>
+                            <span class="ml-3 text-[15px] tracking-wide">Gestión de Categorias</span>
                         </a>
                     </li>
                     <li>
