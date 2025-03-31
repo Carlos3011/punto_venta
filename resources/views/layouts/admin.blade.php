@@ -26,7 +26,7 @@
             <div x-show="open" class="fixed inset-0 bg-gray-900 bg-opacity-50 transition-opacity md:hidden" @click="open = false"></div>
             <button @click="open = !open" type="button" class="fixed top-4 right-4 md:hidden z-50 inline-flex items-center p-2.5 text-sm text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
                 <span class="sr-only">Abrir menú</span>
-                <i data-lucide="menu"class="fas fa-bars w-6 h-6"></i>
+                <i class="fas fa-bars w-6 h-6"></i>
             </button>
             <div class="h-full px-4 sm:px-5 py-7 sm:py-8 overflow-y-auto custom-scrollbar scrollbar-w-2 scrollbar-track-blue-100 scrollbar-thumb-blue-400 scrollbar-thumb-rounded-full">
                 <div class="flex flex-col items-center mb-8 sm:mb-10">
@@ -35,38 +35,56 @@
                 <ul class="space-y-2.5 sm:space-y-3.5 font-medium">
                     <li>
                         <a href="{{ route('dashboard') }}" class="flex items-center px-4 py-3.5 text-white/90 hover:text-white rounded-xl transition-all duration-300 group {{ Route::is('dashboard') ? 'bg-orange-500/90 shadow-lg font-semibold border-l-4 border-orange-300' : 'hover:bg-blue-600/50' }} ">
-                            <i data-lucide="layout-dashboard" class="w-5 h-5 text-white transition duration-75"></i>
+                            <i  class=" w-5 h-5 text-white transition duration-75"></i>
                             <span class="ml-3.5 text-[15px] tracking-wide">Dashboard</span>
                         </a>
                     </li>
                     <li>
                         <a href="#" class="flex items-center px-4 py-3.5 text-white/90 hover:text-white rounded-xl transition-all duration-300 group {{ Route::is('dashboard') ? 'bg-orange-500/90 shadow-lg font-semibold border-l-4 border-orange-300' : 'hover:bg-blue-600/50' }} ">
-                            <i data-lucide="shopping-cart"class="w-5 h-5 text-white transition duration-75"></i>
-                            <span class="ml-3">Ventas</span>
+                            <i class="w-5 h-5 text-white transition duration-75"></i>
+                            <span class="ml-3">Gestión de Usuarios</span>
                         </a>
                     </li>
                     <li>
                         <a href="#" class="flex items-center px-4 py-3.5 text-white/90 hover:text-white rounded-xl transition-all duration-300 group {{ Route::is('dashboard') ? 'bg-orange-500/90 shadow-lg font-semibold border-l-4 border-orange-300' : 'hover:bg-blue-600/50' }} ">
-                            <i data-lucide="shopping-bag" lass="w-5 h-5 text-white transition duration-75"></i>
-                            <span class="ml-3 text-sm">Productos</span>
+                            <i  class="w-5 h-5 text-white transition duration-75"></i>
+                            <span class="ml-3 text-sm">Gestión de Productos</span>
                         </a>
                     </li>
                     <li>
                         <a href="#" class="flex items-center px-4 py-3.5 text-white/90 hover:text-white rounded-xl transition-all duration-300 group {{ Route::is('dashboard') ? 'bg-orange-500/90 shadow-lg font-semibold border-l-4 border-orange-300' : 'hover:bg-blue-600/50' }} ">
-                            <i data-lucide="user-round-pen" class="w-5 h-5 text-white transition duration-75"></i>
-                            <span class="ml-3 text-sm">Usuarios</span>
+                            <i class="w-5 h-5 text-white transition duration-75"></i>
+                            <span class="ml-3 text-sm">Gestión de Stock</span>
                         </a>
                     </li>
                     <li>
                         <a href="#" class="flex items-center px-4 py-3.5 text-white/90 hover:text-white rounded-xl transition-all duration-300 group {{ Route::is('dashboard') ? 'bg-orange-500/90 shadow-lg font-semibold border-l-4 border-orange-300' : 'hover:bg-blue-600/50' }} ">
-                            <i data-lucide="contact-round"class="w-5 h-5 text-white transition duration-75"></i>
-                            <span class="ml-3 text-sm">Clientes</span>
+                            <i class="w-5 h-5 text-white transition duration-75"></i>
+                            <span class="ml-3 text-sm">Gestión de Proveedores</span>
                         </a>
                     </li>
                     <li>
                         <a href="#" class="flex items-center px-4 py-3.5 text-white/90 hover:text-white rounded-xl transition-all duration-300 group {{ Route::is('dashboard') ? 'bg-orange-500/90 shadow-lg font-semibold border-l-4 border-orange-300' : 'hover:bg-blue-600/50' }} ">
-                            <i data-lucide="file-text"class="w-5 h-5 text-white transition duration-75"></i>
-                            <span class="ml-3 text-sm">Reportes</span>
+                            <i class="w-5 h-5 text-white transition duration-75"></i>
+                            <span class="ml-3 text-sm">Ventas</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="flex items-center px-4 py-3.5 text-white/90 hover:text-white rounded-xl transition-all duration-300 group {{ Route::is('dashboard') ? 'bg-orange-500/90 shadow-lg font-semibold border-l-4 border-orange-300' : 'hover:bg-blue-600/50' }} ">
+                            <i class="w-5 h-5 text-white transition duration-75"></i>
+                            <span class="ml-3 text-sm">Administración de Caja</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="flex items-center px-4 py-3.5 text-white/90 hover:text-white rounded-xl transition-all duration-300 group {{ Route::is('dashboard') ? 'bg-orange-500/90 shadow-lg font-semibold border-l-4 border-orange-300' : 'hover:bg-blue-600/50' }} ">
+                            <i class="w-5 h-5 text-white transition duration-75"></i>
+                            <span class="ml-3 text-sm">Gestión de Servicios de Instalación</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="flex items-center px-4 py-3.5 text-white/90 hover:text-white rounded-xl transition-all duration-300 group {{ Route::is('dashboard') ? 'bg-orange-500/90 shadow-lg font-semibold border-l-4 border-orange-300' : 'hover:bg-blue-600/50' }} ">
+                            <i class="w-5 h-5 text-white transition duration-75"></i>
+                            <span class="ml-3 text-sm">Reportes y Estadísticas</span>
                         </a>
                     </li>
                 </ul>
@@ -74,7 +92,7 @@
                 <!-- User Profile Section -->
                 <div class="mt-8 sm:mt-10 pt-6 sm:pt-8 border-t border-blue-400 border-opacity-50">
                     <div class="flex items-center px-4 py-4 text-white bg-gradient-to-r from-blue-600 to-blue-700 rounded-xl group transition-all hover:from-blue-500 hover:to-blue-600">
-                        <i data-lucide="circle-user"class="text-2xl mr-3"></i>
+                        <i class="text-2xl mr-3"></i>
                         <div>
                             <p class="font-medium">{{ Auth::user()->name }}</p>
                             <form method="POST" action="{{ route('logout') }}" class="mt-2">

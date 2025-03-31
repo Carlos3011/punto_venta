@@ -28,7 +28,6 @@
     "author": "",
     "license": "ISC",
     "dependencies": {
-        "lucide": "^0.485.0",
         "sweetalert2": "^11.17.2"
     }
 }
