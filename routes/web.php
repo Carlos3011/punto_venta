@@ -11,6 +11,9 @@ use App\Http\Controllers\AlmacenistaController;
 use App\Http\Controllers\CajeroController;
 use App\Http\Controllers\InstaladorController;
 
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\CategoryController;
+
 Route::get('/', function () {
     return view('auth.login');
 });
@@ -27,8 +30,28 @@ Route::get('/dashboard', function () {
     }
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+//Grupo de rutas para usuario Administrador
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+
+    // Rutas de gestión de usuarios
+    Route::get('/admin/users', [UserController::class, 'index'])->name('admin.users.index');
+    Route::get('/admin/users/create', [UserController::class, 'create'])->name('admin.users.create');
+    Route::post('/admin/users', [UserController::class, 'store'])->name('admin.users.store');
+    Route::get('/admin/users/{user}/edit', [UserController::class, 'edit'])->name('admin.users.edit');
+    Route::patch('/admin/users/{user}', [UserController::class, 'update'])->name('admin.users.update');
+    Route::delete('/admin/users/{user}', [UserController::class, 'destroy'])->name('admin.users.destroy');
+
+    // Rutas de gestión de categorías
+    Route::get('/admin/categorias', [CategoryController::class, 'index'])->name('admin.category.index');
+    Route::get('/admin/categorias/create', [CategoryController::class, 'create'])->name('admin.category.create');
+    Route::post('/admin/categorias', [CategoryController::class, 'store'])->name('admin.category.store');
+    Route::get('/admin/categorias/{categoria}/edit', [CategoryController::class, 'edit'])->name('admin.category.edit');
+    Route::patch('/admin/categorias/{categoria}', [CategoryController::class, 'update'])->name('admin.category.update');
+    Route::delete('/admin/categorias/{categoria}', [CategoryController::class, 'destroy'])->name('admin.category.destroy');
+});
+
+Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/almacenista/dashboard', [AlmacenistaController::class, 'index'])->name('almacenista.dashboard');
 
