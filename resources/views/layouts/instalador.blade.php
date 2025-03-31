@@ -17,7 +17,7 @@
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     
     <!-- Scripts -->
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/lucide.js', 'resources/js/alpine.js', 'resources/js/sweetalert.js'])
 </head>
 <body class="font-sans antialiased bg-gray-100">
     <div class="min-h-screen flex">
