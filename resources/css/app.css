@@ -1,10 +1,6 @@
-@import 'tabulator-tables/dist/css/tabulator.min.css';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-/* Importar estilos de Tabulator */
-
 
 /* Custom Scrollbar */
 .custom-scrollbar::-webkit-scrollbar {
@@ -17,37 +13,4 @@
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
     @apply bg-blue-400 rounded-full hover:bg-blue-500 transition-colors;
-}
-
-/* Estilos personalizados para Tabulator */
-.tabulator {
-    @apply font-sans border border-gray-200 rounded-lg overflow-hidden;
-}
-
-.tabulator-header {
-    @apply bg-blue-600 text-white font-semibold;
-}
-
-.tabulator-row {
-    @apply hover:bg-gray-50 transition-colors;
-}
-
-.tabulator-row.tabulator-selected {
-    @apply bg-orange-100;
-}
-
-.tabulator-footer {
-    @apply bg-gray-50 border-t border-gray-200;
-}
-
-.tabulator-paginator {
-    @apply text-sm text-gray-600;
-}
-
-.tabulator-page {
-    @apply px-3 py-1 rounded hover:bg-blue-100 transition-colors;
-}
-
-.tabulator-page.active {
-    @apply bg-blue-600 text-white;
 }
