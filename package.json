@@ -29,6 +29,7 @@
     "license": "ISC",
     "dependencies": {
         "chart.js": "^4.4.8",
-        "sweetalert2": "^11.17.2"
+        "sweetalert2": "^11.17.2",
+        "tabulator-tables": "^6.3.1"
     }
 }
