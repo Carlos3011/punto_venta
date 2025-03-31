@@ -27,10 +27,13 @@ Route::get('/dashboard', function () {
     }
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware(['auth','verified'])->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+
     Route::get('/almacenista/dashboard', [AlmacenistaController::class, 'index'])->name('almacenista.dashboard');
+
     Route::get('/cajero/dashboard', [CajeroController::class, 'index'])->name('cajero.dashboard');
+
     Route::get('/instalador/dashboard', [InstaladorController::class, 'index'])->name('instalador.dashboard');
 });
 
@@ -40,4 +43,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
