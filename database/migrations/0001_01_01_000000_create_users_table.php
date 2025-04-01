@@ -28,6 +28,12 @@ return new class extends Migration
             $table->timestamps();
         });
 
+        DB::statement('ALTER TABLE users ENGINE = InnoDB');
+        DB::statement('ALTER TABLE users AUTO_INCREMENT = 1');
+        DB::statement('SET @num := 0');
+        DB::statement('UPDATE users SET id = @num := (@num + 1)');
+        DB::statement('ALTER TABLE users AUTO_INCREMENT = 1');
+
         Schema::create('password_reset_tokens', function (Blueprint $table) {
             $table->string('email')->primary();
             $table->string('token');

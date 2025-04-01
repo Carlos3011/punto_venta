@@ -102,22 +102,22 @@
                             <div class="flex space-x-6">
                                 <label class="flex-1 cursor-pointer group">
                                     <div
-                                        class="p-4 rounded-xl border-2 transition-all duration-300 {{ old('is_active', '1') == '1' ? 'border-orange-500 bg-orange-50' : 'border-gray-200 hover:border-orange-300' }}">
+                                        class="p-4 rounded-xl border-2 transition-all duration-300 {{ old('is_active') === '0' ? 'border-gray-200 hover:border-orange-300' : 'border-orange-500 bg-orange-50' }}">
                                         <div class="flex items-center gap-3">
                                             <input type="radio" name="is_active" value="1"
                                                 class="form-radio text-orange-600 h-5 w-5"
-                                                {{ old('is_active', '1') == '1' ? 'checked' : '' }}>
+                                                {{ old('is_active') === '0' ? '' : 'checked' }}>
                                             <span class="font-medium">Activo</span>
                                         </div>
                                     </div>
                                 </label>
                                 <label class="flex-1 cursor-pointer group">
                                     <div
-                                        class="p-4 rounded-xl border-2 transition-all duration-300 {{ old('is_active') == '0' ? 'border-red-500 bg-red-50' : 'border-gray-200 hover:border-red-300' }}">
+                                        class="p-4 rounded-xl border-2 transition-all duration-300 {{ old('is_active') === '0' ? 'border-red-500 bg-red-50' : 'border-gray-200 hover:border-red-300' }}">
                                         <div class="flex items-center gap-3">
                                             <input type="radio" name="is_active" value="0"
                                                 class="form-radio text-red-600 h-5 w-5"
-                                                {{ old('is_active') == '0' ? 'checked' : '' }}>
+                                                {{ old('is_active') === '0' ? 'checked' : '' }}>
                                             <span class="font-medium">Inactivo</span>
                                         </div>
                                     </div>

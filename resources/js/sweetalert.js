@@ -48,21 +48,8 @@ document.addEventListener('DOMContentLoaded', function() {
                             return response.json();
                         })
                         .then(data => {
-                            Swal.fire({
-                                title: '¡Eliminado!',
-                                text: data.message || 'El usuario fue eliminado correctamente',
-                                icon: 'success',
-                                showConfirmButton: false,
-                                timer: 1500,
-                                customClass: {
-                                    popup: 'animate__animated animate__fadeOutUp',
-                                    icon: 'animate__animated animate__bounceOut'
-                                }
-                            }).then(() => {
-                                setTimeout(() => {
-                                    window.location.reload();
-                                }, 500);
-                            });
+                            console.log("Usuario eliminado, recargando página...");
+                            window.location.reload(true);
                         })
                         .catch(error => {
                             error.json().then(err => {
