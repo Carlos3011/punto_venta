@@ -7,9 +7,18 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\DB;
 
 class User extends Authenticatable
 {
+    protected static function booted()
+    {
+        static::deleted(function ($user) {
+            DB::statement('SET @num := 0');
+            DB::statement('UPDATE users SET id = @num := (@num + 1)');
+            DB::statement('ALTER TABLE users AUTO_INCREMENT = 1');
+        });
+    }
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
@@ -98,7 +107,9 @@ class User extends Authenticatable
 
     public function updateLastLogin(): void
     {
-        $this->update(['last_login_at' => now()]);
+        $this->update([
+            'last_login_at' => now()
+        ]);
     }
 
     public function isActive(): bool

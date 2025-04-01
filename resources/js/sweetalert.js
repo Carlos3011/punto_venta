@@ -1,8 +1,8 @@
 import Swal from "sweetalert2";
 
 
-document.addEventListener('DOMContentLoaded', function() {
-    window.confirmarEliminacion = function(url) {
+document.addEventListener('DOMContentLoaded', function () {
+    window.confirmarEliminacion = function (url) {
         Swal.fire({
             title: '¿Estás seguro?',
             text: 'Esta acción no se puede deshacer',
@@ -43,43 +43,43 @@ document.addEventListener('DOMContentLoaded', function() {
                             },
                             body: JSON.stringify({ _method: 'DELETE' })
                         })
-                        .then(response => {
-                            if (!response.ok) throw response;
-                            return response.json();
-                        })
-                        .then(data => {
-                            Swal.fire({
-                                title: '¡Eliminado!',
-                                text: data.message || 'El elemento fue eliminado correctamente',
-                                icon: 'success',
-                                showConfirmButton: false,
-                                timer: 1500,
-                                customClass: {
-                                    popup: 'animate__animated animate__fadeOutUp',
-                                    icon: 'animate__animated animate__bounceOut'
-                                }
-                            }).then(() => {
-                                setTimeout(() => {
-                                    window.location.reload();
-                                }, 500);
-                            });
-                        })
-                        .catch(error => {
-                            error.json().then(err => {
+                            .then(response => {
+                                if (!response.ok) throw response;
+                                return response.json();
+                            })
+                            .then(data => {
                                 Swal.fire({
-                                    title: 'Error',
-                                    text: err.message || 'Ocurrió un error al eliminar el elemento',
-                                    icon: 'error',
-                                    confirmButtonColor: '#10b981',
-                                    confirmButtonText: 'OK',
+                                    title: '¡Eliminado!',
+                                    text: data.message || 'El elemento fue eliminado correctamente',
+                                    icon: 'success',
+                                    showConfirmButton: false,
+                                    timer: 1500,
                                     customClass: {
-                                        popup: 'animate__animated animate__bounceIn animate__faster rounded-xl',
-                                        icon: 'animate__animated animate__heartBeat animate__infinite',
-                                        popup: 'animate__animated animate__headShake'
+                                        popup: 'animate__animated animate__fadeOutUp',
+                                        icon: 'animate__animated animate__bounceOut'
                                     }
+                                }).then(() => {
+                                    setTimeout(() => {
+                                        window.location.reload();
+                                    }, 500);
+                                });
+                            })
+                            .catch(error => {
+                                error.json().then(err => {
+                                    Swal.fire({
+                                        title: 'Error',
+                                        text: err.message || 'Ocurrió un error al eliminar el elemento',
+                                        icon: 'error',
+                                        confirmButtonColor: '#10b981',
+                                        confirmButtonText: 'OK',
+                                        customClass: {
+                                            popup: 'animate__animated animate__bounceIn animate__faster rounded-xl',
+                                            icon: 'animate__animated animate__heartBeat animate__infinite',
+                                            popup: 'animate__animated animate__headShake'
+                                        }
+                                    });
                                 });
                             });
-                        });
                     },
                 });
             }
@@ -100,7 +100,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Efecto de carga al enviar formulario de búsqueda
     const searchForm = document.querySelector('form[action="{{ route(\'admin.users.index\') }}"]');
-    searchForm.addEventListener('submit', function() {
+    searchForm.addEventListener('submit', function () {
         Swal.fire({
             title: 'Buscando...',
             allowOutsideClick: false,

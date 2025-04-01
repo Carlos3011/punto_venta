@@ -23,10 +23,7 @@ class UserController extends Controller
             })
             ->filterByRole($request->role_id)
             ->filterByDateRange($request->start_date, $request->end_date)
-            ->applyOrder(
-                $request->order_by ?? 'created_at',
-                $request->direction ?? 'desc'
-            )
+            ->orderBy('id', 'asc')
             ->paginate($request->per_page ?? 10);
 
         $roles = Role::all();
@@ -59,7 +56,8 @@ class UserController extends Controller
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
-                'role_id' => $request->role_id
+                'role_id' => $request->role_id,
+                'is_active' => $request->input('is_active', false)
             ]);
 
             \Log::info('Usuario creado exitosamente:', ['user_id' => $user->id]);
