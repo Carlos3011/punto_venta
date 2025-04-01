@@ -104,15 +104,29 @@ class UserController extends Controller
             ->with('success', 'Usuario actualizado exitosamente.');
     }
 
-    public function destroy(User $user): RedirectResponse
+    public function destroy(User $user)
     {
-        if ($user->id === auth()->id()) {
-            return back()->with('error', 'No puedes eliminar tu propio usuario.');
+        try {
+            // Verificar si el usuario existe
+            if (!$user) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Usuario no encontrado'
+                ], 404);
+            }
+
+            // Eliminar el usuario de la base de datos
+            $user->delete();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Usuario eliminado exitosamente'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error al eliminar el usuario: ' . $e->getMessage()
+            ], 500);
         }
-
-        $user->delete();
-
-        return redirect()->route('admin.users.index')
-            ->with('success', 'Usuario eliminado exitosamente.');
     }
 }

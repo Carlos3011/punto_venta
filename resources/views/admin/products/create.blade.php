@@ -43,17 +43,37 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="precio" class="block text-sm font-medium text-gray-700 flex items-center gap-2">
-                                <i class="fas fa-dollar-sign text-blue-500"></i>
-                                Precio
+                            <label for="código" class="block text-sm font-medium text-gray-700 flex items-center gap-2">
+                                <i class="fas fa-barcode text-blue-500"></i>
+                                Código
                             </label>
-                            <input type="number" step="0.01" name="precio" id="precio"
-                                class="mt-2 block w-full rounded-lg border-2 border-gray-200 shadow-sm focus:border-orange-500 focus:ring-orange-500 transition-all duration-300 hover:border-orange-300 p-3 @error('precio') border-red-500 @enderror"
-                                value="{{ old('precio') }}" required>
+                            <input type="text" name="código" id="código"
+                                class="mt-2 block w-full rounded-lg border-2 border-gray-200 shadow-sm focus:border-orange-500 focus:ring-orange-500 transition-all duration-300 hover:border-orange-300 p-3 @error('código') border-red-500 @enderror"
+                                value="{{ old('código') }}" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="precio_mayoreo" class="block text-sm font-medium text-gray-700 flex items-center gap-2">
+                                <i class="fas fa-dollar-sign text-blue-500"></i>
+                                Precio Mayoreo
+                            </label>
+                            <input type="number" step="0.01" name="precio_mayoreo" id="precio_mayoreo"
+                                class="mt-2 block w-full rounded-lg border-2 border-gray-200 shadow-sm focus:border-orange-500 focus:ring-orange-500 transition-all duration-300 hover:border-orange-300 p-3 @error('precio_mayoreo') border-red-500 @enderror"
+                                value="{{ old('precio_mayoreo') }}" required>
                         </div>
                     </div>
 
                     <div class="space-y-4">
+                        <div class="form-group">
+                            <label for="precio_menudeo" class="block text-sm font-medium text-gray-700 flex items-center gap-2">
+                                <i class="fas fa-tag text-blue-500"></i>
+                                Precio Menudeo
+                            </label>
+                            <input type="number" step="0.01" name="precio_menudeo" id="precio_menudeo"
+                                class="mt-2 block w-full rounded-lg border-2 border-gray-200 shadow-sm focus:border-orange-500 focus:ring-orange-500 transition-all duration-300 hover:border-orange-300 p-3 @error('precio_menudeo') border-red-500 @enderror"
+                                value="{{ old('precio_menudeo') }}" required>
+                        </div>
+
                         <div class="form-group">
                             <label for="stock" class="block text-sm font-medium text-gray-700 flex items-center gap-2">
                                 <i class="fas fa-cubes text-blue-500"></i>
@@ -64,6 +84,34 @@
                                 value="{{ old('stock') }}" required>
                         </div>
 
+                        <div class="form-group">
+                            <label for="estado" class="block text-sm font-medium text-gray-700 flex items-center gap-2">
+                                <i class="fas fa-toggle-on text-blue-500"></i>
+                                Estado
+                            </label>
+                            <select name="estado" id="estado"
+                                class="mt-2 block w-full rounded-lg border-2 border-gray-200 shadow-sm focus:border-orange-500 focus:ring-orange-500 transition-all duration-300 hover:border-orange-300 p-3 @error('estado') border-red-500 @enderror"
+                                required>
+                                <option value="">Seleccionar Estado</option>
+                                <option value="activo" {{ old('estado') == 'activo' ? 'selected' : '' }}>Activo</option>
+                                <option value="inactivo" {{ old('estado') == 'inactivo' ? 'selected' : '' }}>Inactivo</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="md:col-span-2">
+                        <div class="form-group">
+                            <label for="descripción" class="block text-sm font-medium text-gray-700 flex items-center gap-2">
+                                <i class="fas fa-align-left text-blue-500"></i>
+                                Descripción
+                            </label>
+                            <textarea name="descripción" id="descripción" rows="4"
+                                class="mt-2 block w-full rounded-lg border-2 border-gray-200 shadow-sm focus:border-orange-500 focus:ring-orange-500 transition-all duration-300 hover:border-orange-300 p-3 @error('descripción') border-red-500 @enderror"
+                                >{{ old('descripción') }}</textarea>
+                        </div>
+                    </div>
+
+                    <div class="md:col-span-2">
                         <div class="form-group">
                             <label for="categoria_id" class="block text-sm font-medium text-gray-700 flex items-center gap-2">
                                 <i class="fas fa-list text-blue-500"></i>
@@ -79,18 +127,6 @@
                                     </option>
                                 @endforeach
                             </select>
-                        </div>
-                    </div>
-
-                    <div class="md:col-span-2">
-                        <div class="form-group">
-                            <label for="descripcion" class="block text-sm font-medium text-gray-700 flex items-center gap-2">
-                                <i class="fas fa-align-left text-blue-500"></i>
-                                Descripción
-                            </label>
-                            <textarea name="descripcion" id="descripcion" rows="4"
-                                class="mt-2 block w-full rounded-lg border-2 border-gray-200 shadow-sm focus:border-orange-500 focus:ring-orange-500 transition-all duration-300 hover:border-orange-300 p-3 @error('descripcion') border-red-500 @enderror"
-                                >{{ old('descripcion') }}</textarea>
                         </div>
                     </div>
                 </div>

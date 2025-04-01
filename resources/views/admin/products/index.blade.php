@@ -98,6 +98,33 @@
                                 </a>
                             </th>
                             <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">
+                                <a href="{{ route('admin.products.index', ['order_by' => 'código', 'direction' => request('direction') == 'asc' ? 'desc' : 'asc'] + request()->except(['order_by', 'direction'])) }}"
+                                    class="flex items-center hover:text-orange-500 transition-colors duration-200">
+                                    <i class="fas fa-barcode mr-2 text-orange-400"></i>Código
+                                    @if(request('order_by') == 'código')
+                                        <i class="fas fa-sort-{{ request('direction') == 'asc' ? 'up' : 'down' }} ml-2"></i>
+                                    @endif
+                                </a>
+                            </th>
+                            <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">
+                                <a href="{{ route('admin.products.index', ['order_by' => 'descripción', 'direction' => request('direction') == 'asc' ? 'desc' : 'asc'] + request()->except(['order_by', 'direction'])) }}"
+                                    class="flex items-center hover:text-orange-500 transition-colors duration-200">
+                                    <i class="fas fa-align-left mr-2 text-orange-400"></i>Descripción
+                                    @if(request('order_by') == 'descripción')
+                                        <i class="fas fa-sort-{{ request('direction') == 'asc' ? 'up' : 'down' }} ml-2"></i>
+                                    @endif
+                                </a>
+                            </th>
+                            <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">
+                                <a href="{{ route('admin.products.index', ['order_by' => 'estado', 'direction' => request('direction') == 'asc' ? 'desc' : 'asc'] + request()->except(['order_by', 'direction'])) }}"
+                                    class="flex items-center hover:text-orange-500 transition-colors duration-200">
+                                    <i class="fas fa-toggle-on mr-2 text-orange-400"></i>Estado
+                                    @if(request('order_by') == 'estado')
+                                        <i class="fas fa-sort-{{ request('direction') == 'asc' ? 'up' : 'down' }} ml-2"></i>
+                                    @endif
+                                </a>
+                            </th>
+                            <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">
                                 <a href="{{ route('admin.products.index', ['order_by' => 'categoria_id', 'direction' => request('direction') == 'asc' ? 'desc' : 'asc'] + request()->except(['order_by', 'direction'])) }}"
                                     class="flex items-center hover:text-orange-500 transition-colors duration-200">
                                     <i class="fas fa-list mr-2 text-orange-400"></i>Categoría
@@ -116,10 +143,18 @@
                             <tr class="hover:bg-orange-50 transition-all duration-200 ease-in-out">
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-500">{{ $product->id }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ $product->nombre }}</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">${{ number_format($product->precio, 2) }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
-                                    <span class="px-4 py-1.5 rounded-full text-xs font-semibold shadow-sm {{ $product->stock > 0 ? 'bg-gradient-to-r from-green-500 to-green-600 text-white' : 'bg-gradient-to-r from-red-500 to-red-600 text-white' }}">
-                                        {{ $product->stock }}
+                                    <div class="flex flex-col space-y-1">
+                                        <span class="text-sm font-medium">Mayoreo: ${{ number_format($product->precio_mayoreo, 2) }}</span>
+                                        <span class="text-sm">Menudeo: ${{ number_format($product->precio_menudeo, 2) }}</span>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ $product->stock }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ $product->código }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ Str::limit($product->descripción, 50) }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                                    <span class="px-4 py-1.5 bg-gradient-to-r {{ $product->estado === 'activo' ? 'from-green-500 to-green-600' : 'from-red-500 to-red-600' }} text-white rounded-full text-xs font-semibold shadow-sm">
+                                        {{ ucfirst($product->estado) }}
                                     </span>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
@@ -144,6 +179,7 @@
                                         @csrf
                                         @method('DELETE')
                                     </form>
+                                </td>
                                 </td>
                             </tr>
                         @endforeach

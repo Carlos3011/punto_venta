@@ -64,15 +64,35 @@ class CategoryController extends Controller
 
     public function destroy(Categoria $categoria)
     {
-        // Verificar relación con productos antes de eliminar
-        if ($categoria->productos()->exists()) {
-            return redirect()->back()
-                ->with('error', 'No se puede eliminar la categoría porque tiene productos asociados');
+        try {
+            // Verificar si la categoría existe
+            if (!$categoria) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Categoría no encontrada'
+                ], 404);
+            }
+
+            // Verificar relación con productos antes de eliminar
+            if ($categoria->productos()->exists()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'No se puede eliminar la categoría porque tiene productos asociados'
+                ], 400);
+            }
+
+            // Eliminar la categoría de la base de datos
+            $categoria->delete();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Categoría eliminada exitosamente'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error al eliminar la categoría: ' . $e->getMessage()
+            ], 500);
         }
-
-        $categoria->delete();
-
-        return redirect()->route('admin.category.index')
-            ->with('success', 'Categoría eliminada correctamente');
     }
 }

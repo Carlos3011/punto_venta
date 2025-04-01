@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Producto;
 use App\Models\Categoria;
 use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
 
 class ProductController extends Controller
 {
@@ -47,7 +48,17 @@ class ProductController extends Controller
     public function destroy(Producto $producto)
     {
         try {
-            $producto->delete();
+            // Verificar si el producto existe
+            if (!$producto) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Producto no encontrado'
+                ], 404);
+            }
+
+            // Eliminar el producto de la base de datos
+            $producto->forceDelete();
+
             return response()->json([
                 'success' => true,
                 'message' => 'Producto eliminado exitosamente'
@@ -57,6 +68,59 @@ class ProductController extends Controller
                 'success' => false,
                 'message' => 'Error al eliminar el producto: ' . $e->getMessage()
             ], 500);
+        }
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'nombre' => ['required', 'string', 'max:255'],
+            'código' => ['required', 'string', 'max:50', 'unique:productos,código'],
+            'descripción' => ['required', 'string'],
+            'stock' => ['required', 'numeric', 'min:0'],
+            'precio_mayoreo' => ['required', 'numeric', 'min:0'],
+            'precio_menudeo' => ['required', 'numeric', 'min:0'],
+            'categoria_id' => ['required', 'exists:categorias,id'],
+            'estado' => ['required', 'string', 'in:activo,inactivo']
+        ]);
+
+        try {
+            // Obtener todos los IDs existentes (incluyendo los eliminados)
+            $existingIds = Producto::withTrashed()
+                ->orderBy('id')
+                ->pluck('id')
+                ->toArray();
+            
+            // Encontrar el primer ID disponible
+            $newId = 1;
+            foreach ($existingIds as $id) {
+                if ($id == $newId) {
+                    $newId++;
+                } else if ($id > $newId) {
+                    break;
+                }
+            }
+            
+            // Crear el nuevo producto con el ID disponible
+            $producto = new Producto([
+                'nombre' => $request->nombre,
+                'código' => $request->código,
+                'descripción' => $request->descripción,
+                'stock' => $request->stock,
+                'precio_mayoreo' => $request->precio_mayoreo,
+                'precio_menudeo' => $request->precio_menudeo,
+                'categoria_id' => $request->categoria_id,
+                'estado' => $request->estado
+            ]);
+            $producto->id = $newId;
+            $producto->save();
+
+            return redirect()->route('admin.products.index')
+                ->with('success', 'Producto creado exitosamente.');
+        } catch (\Exception $e) {
+            return back()
+                ->withInput()
+                ->with('error', 'Error al crear el producto: ' . $e->getMessage());
         }
     }
 
@@ -70,7 +134,7 @@ class ProductController extends Controller
             'precio_mayoreo' => ['required', 'numeric', 'min:0'],
             'precio_menudeo' => ['required', 'numeric', 'min:0'],
             'categoria_id' => ['required', 'exists:categorias,id'],
-            'estado' => ['boolean']
+            'estado' => ['required', 'string', 'in:activo,inactivo']
         ]);
 
         $productoData = [
@@ -81,7 +145,7 @@ class ProductController extends Controller
             'precio_mayoreo' => $request->precio_mayoreo,
             'precio_menudeo' => $request->precio_menudeo,
             'categoria_id' => $request->categoria_id,
-            'estado' => $request->has('estado')
+            'estado' => $request->estado
         ];
 
         try {

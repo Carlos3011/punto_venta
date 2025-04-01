@@ -48,9 +48,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/admin/products', [ProductController::class, 'index'])->name('admin.products.index');
     Route::get('/admin/products/create', [ProductController::class, 'create'])->name('admin.products.create');
     Route::post('/admin/products', [ProductController::class, 'store'])->name('admin.products.store');
-    Route::get('/admin/products/{product}/edit', [ProductController::class, 'edit'])->name('admin.products.edit');
-    Route::patch('/admin/products/{product}', [ProductController::class, 'update'])->name('admin.products.update');
-    Route::delete('/admin/products/{product}', [ProductController::class, 'destroy'])->name('admin.products.destroy');
+    Route::get('/admin/products/{producto}/edit', [ProductController::class, 'edit'])->name('admin.products.edit');
+    Route::patch('/admin/products/{producto}', [ProductController::class, 'update'])->name('admin.products.update');
+    Route::delete('/admin/products/{producto}', [ProductController::class, 'destroy'])->name('admin.products.destroy');
 
     // Rutas de gestión de categorías
     Route::get('/admin/categorias', [CategoryController::class, 'index'])->name('admin.category.index');

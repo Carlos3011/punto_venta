@@ -14,7 +14,7 @@
         </div>
 
         <div class="bg-white rounded-xl shadow-xl p-8 transition-all duration-300 hover:shadow-2xl">
-            <form action="{{ route('admin.products.update', $producto->id) }}" method="POST" class="space-y-6">
+            <form action="{{ route('admin.products.update', $producto) }}" method="POST" class="space-y-6">
                 @csrf
                 @method('PATCH')
 
@@ -33,14 +33,40 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="precio" class="block text-sm font-medium text-gray-700 flex items-center gap-2">
-                            <i class="fas fa-dollar-sign text-blue-500"></i>
-                            Precio
+                        <label for="código" class="block text-sm font-medium text-gray-700 flex items-center gap-2">
+                            <i class="fas fa-barcode text-blue-500"></i>
+                            Código
                         </label>
-                        <input type="number" step="0.01" name="precio" id="precio"
-                            class="mt-2 block w-full rounded-lg border-2 border-gray-200 shadow-sm focus:border-orange-500 focus:ring-orange-500 transition-all duration-300 hover:border-orange-300 p-3 @error('precio') border-red-500 @enderror"
-                            value="{{ $producto->precio }}" required>
-                        @error('precio')
+                        <input type="text" name="código" id="código"
+                            class="mt-2 block w-full rounded-lg border-2 border-gray-200 shadow-sm focus:border-orange-500 focus:ring-orange-500 transition-all duration-300 hover:border-orange-300 p-3 @error('código') border-red-500 @enderror"
+                            value="{{ $producto->código }}" required>
+                        @error('código')
+                            <span class="text-red-500 text-sm">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <div class="form-group">
+                        <label for="precio_mayoreo" class="block text-sm font-medium text-gray-700 flex items-center gap-2">
+                            <i class="fas fa-dollar-sign text-blue-500"></i>
+                            Precio Mayoreo
+                        </label>
+                        <input type="number" step="0.01" name="precio_mayoreo" id="precio_mayoreo"
+                            class="mt-2 block w-full rounded-lg border-2 border-gray-200 shadow-sm focus:border-orange-500 focus:ring-orange-500 transition-all duration-300 hover:border-orange-300 p-3 @error('precio_mayoreo') border-red-500 @enderror"
+                            value="{{ $producto->precio_mayoreo }}" required>
+                        @error('precio_mayoreo')
+                            <span class="text-red-500 text-sm">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <div class="form-group">
+                        <label for="precio_menudeo" class="block text-sm font-medium text-gray-700 flex items-center gap-2">
+                            <i class="fas fa-dollar-sign text-blue-500"></i>
+                            Precio Menudeo
+                        </label>
+                        <input type="number" step="0.01" name="precio_menudeo" id="precio_menudeo"
+                            class="mt-2 block w-full rounded-lg border-2 border-gray-200 shadow-sm focus:border-orange-500 focus:ring-orange-500 transition-all duration-300 hover:border-orange-300 p-3 @error('precio_menudeo') border-red-500 @enderror"
+                            value="{{ $producto->precio_menudeo }}" required>
+                        @error('precio_menudeo')
                             <span class="text-red-500 text-sm">{{ $message }}</span>
                         @enderror
                     </div>
@@ -54,6 +80,22 @@
                             class="mt-2 block w-full rounded-lg border-2 border-gray-200 shadow-sm focus:border-orange-500 focus:ring-orange-500 transition-all duration-300 hover:border-orange-300 p-3 @error('stock') border-red-500 @enderror"
                             value="{{ $producto->stock }}" required>
                         @error('stock')
+                            <span class="text-red-500 text-sm">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <div class="form-group">
+                        <label for="estado" class="block text-sm font-medium text-gray-700 flex items-center gap-2">
+                            <i class="fas fa-toggle-on text-blue-500"></i>
+                            Estado
+                        </label>
+                        <select name="estado" id="estado"
+                            class="mt-2 block w-full rounded-lg border-2 border-gray-200 shadow-sm focus:border-orange-500 focus:ring-orange-500 transition-all duration-300 hover:border-orange-300 p-3 @error('estado') border-red-500 @enderror"
+                            required>
+                            <option value="activo" {{ $producto->estado == 'activo' ? 'selected' : '' }}>Activo</option>
+                            <option value="inactivo" {{ $producto->estado == 'inactivo' ? 'selected' : '' }}>Inactivo</option>
+                        </select>
+                        @error('estado')
                             <span class="text-red-500 text-sm">{{ $message }}</span>
                         @enderror
                     </div>
@@ -78,14 +120,14 @@
                     </div>
 
                     <div class="form-group col-span-2">
-                        <label for="descripcion" class="block text-sm font-medium text-gray-700 flex items-center gap-2">
+                        <label for="descripción" class="block text-sm font-medium text-gray-700 flex items-center gap-2">
                             <i class="fas fa-align-left text-blue-500"></i>
                             Descripción
                         </label>
-                        <textarea name="descripcion" id="descripcion" rows="4"
-                            class="mt-2 block w-full rounded-lg border-2 border-gray-200 shadow-sm focus:border-orange-500 focus:ring-orange-500 transition-all duration-300 hover:border-orange-300 p-3 @error('descripcion') border-red-500 @enderror"
-                            >{{ $producto->descripcion }}</textarea>
-                        @error('descripcion')
+                        <textarea name="descripción" id="descripción" rows="4"
+                            class="mt-2 block w-full rounded-lg border-2 border-gray-200 shadow-sm focus:border-orange-500 focus:ring-orange-500 transition-all duration-300 hover:border-orange-300 p-3 @error('descripción') border-red-500 @enderror"
+                            required>{{ $producto->descripción }}</textarea>
+                        @error('descripción')
                             <span class="text-red-500 text-sm">{{ $message }}</span>
                         @enderror
                     </div>
