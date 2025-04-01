@@ -50,7 +50,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#" class="flex items-center px-4 py-3.5 text-white/90 hover:text-white rounded-xl transition-all duration-300 group {{ Route::is('admin.products') ? 'bg-gradient-to-r from-orange-500 to-orange-400 shadow-lg font-semibold border-l-4 border-orange-300' : 'hover:bg-gradient-to-r hover:from-orange-500 hover:to-orange-400 hover:shadow-lg hover:scale-[1.02]' }} ">
+                        <a href="{{ route('admin.products.index') }}" class="flex items-center px-4 py-3.5 text-white/90 hover:text-white rounded-xl transition-all duration-300 group {{ Route::is('admin.products.index') ? 'bg-gradient-to-r from-orange-500 to-orange-400 shadow-lg font-semibold border-l-4 border-orange-300' : 'hover:bg-gradient-to-r hover:from-orange-500 hover:to-orange-400 hover:shadow-lg hover:scale-[1.02]' }} ">
                             <i class="fa-solid fa-tags w-5 h-5 text-white transition duration-75 group-hover:text-orange-200"></i>
                             <span class="ml-3 text-[15px] tracking-wide">Gestión de Productos</span>
                         </a>
