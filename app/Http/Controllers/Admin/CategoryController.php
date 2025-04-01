@@ -9,9 +9,22 @@ use Illuminate\Support\Facades\Validator;
 
 class CategoryController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $categorias = Categoria::all();
+        $query = Categoria::query();
+
+        if ($request->has('search')) {
+            $searchTerm = $request->search;
+            $query->where('nombre', 'LIKE', "%{$searchTerm}%");
+        }
+
+        if ($request->has('order_by')) {
+            $direction = $request->direction == 'asc' ? 'asc' : 'desc';
+            $query->orderBy($request->order_by, $direction);
+        }
+
+        $perPage = $request->per_page ?? 10;
+        $categorias = $query->paginate($perPage);
         return view('admin.category.index', compact('categorias'));
     }
 
@@ -28,7 +41,7 @@ class CategoryController extends Controller
 
         Categoria::create($request->all());
 
-        return redirect()->route('categorias.index')
+        return redirect()->route('admin.category.index')
             ->with('success', 'Categoría creada exitosamente');
     }
 

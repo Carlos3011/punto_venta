@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         .then(data => {
                             Swal.fire({
                                 title: '¡Eliminado!',
-                                text: data.message || 'El usuario fue eliminado correctamente',
+                                text: data.message || 'El elemento fue eliminado correctamente',
                                 icon: 'success',
                                 showConfirmButton: false,
                                 timer: 1500,
@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             error.json().then(err => {
                                 Swal.fire({
                                     title: 'Error',
-                                    text: err.message || 'Ocurrió un error al eliminar el usuario',
+                                    text: err.message || 'Ocurrió un error al eliminar el elemento',
                                     icon: 'error',
                                     confirmButtonColor: '#10b981',
                                     confirmButtonText: 'OK',

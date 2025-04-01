@@ -36,13 +36,6 @@
                             class="w-full px-4 py-2.5 rounded-lg border-2 border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all"
                             placeholder="Nombre de la categoría" value="{{ old('nombre', $categoria->nombre) }}">
                     </div>
-
-                    <div>
-                        <label class="block text-gray-700 text-sm font-bold mb-2">Descripción</label>
-                        <textarea name="descripcion" rows="3"
-                            class="w-full px-4 py-2.5 rounded-lg border-2 border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all"
-                            placeholder="Descripción de la categoría">{{ old('descripcion', $categoria->descripcion) }}</textarea>
-                    </div>
                 </div>
 
                 <button type="submit"
