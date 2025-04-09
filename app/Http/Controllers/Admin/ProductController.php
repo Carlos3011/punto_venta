@@ -13,7 +13,7 @@ class ProductController extends Controller
     public function index(Request $request)
 {
     $products = Producto::with(['categoria', 'proveedores'])
-        ->select('id', 'nombre', 'código', 'descripción', 'stock', 'precio_mayoreo', 'precio_menudeo', 'estado', 'categoria_id')
+        ->select('id', 'nombre', 'código', 'descripción', 'precio_mayoreo', 'precio_menudeo', 'estado', 'categoria_id')
         ->when($request->search, function ($query, $search) {
             $query->where(function ($q) use ($search) {
                 $q->where('nombre', 'like', "%$search%")
@@ -75,9 +75,8 @@ class ProductController extends Controller
     {
         $request->validate([
             'nombre' => ['required', 'string', 'max:255'],
-            'código' => ['required', 'string', 'max:50', 'unique:productos,código'],
+            'código' => ['required', 'string', 'max:50', 'unique:productos,código,'.$request->id],
             'descripción' => ['required', 'string'],
-            'stock' => ['required', 'numeric', 'min:0'],
             'precio_mayoreo' => ['required', 'numeric', 'min:0'],
             'precio_menudeo' => ['required', 'numeric', 'min:0'],
             'categoria_id' => ['required', 'exists:categorias,id'],
@@ -106,7 +105,6 @@ class ProductController extends Controller
                 'nombre' => $request->nombre,
                 'código' => $request->código,
                 'descripción' => $request->descripción,
-                'stock' => $request->stock,
                 'precio_mayoreo' => $request->precio_mayoreo,
                 'precio_menudeo' => $request->precio_menudeo,
                 'categoria_id' => $request->categoria_id,
@@ -128,9 +126,8 @@ class ProductController extends Controller
     {
         $request->validate([
             'nombre' => ['required', 'string', 'max:255'],
-            'código' => ['required', 'string', 'max:50'],
+            'código' => ['required', 'string', 'max:50', 'unique:productos,código,'.$producto->id],
             'descripción' => ['required', 'string'],
-            'stock' => ['required', 'numeric', 'min:0'],
             'precio_mayoreo' => ['required', 'numeric', 'min:0'],
             'precio_menudeo' => ['required', 'numeric', 'min:0'],
             'categoria_id' => ['required', 'exists:categorias,id'],
@@ -141,7 +138,6 @@ class ProductController extends Controller
             'nombre' => $request->nombre,
             'código' => $request->código,
             'descripción' => $request->descripción,
-            'stock' => $request->stock,
             'precio_mayoreo' => $request->precio_mayoreo,
             'precio_menudeo' => $request->precio_menudeo,
             'categoria_id' => $request->categoria_id,

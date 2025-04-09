@@ -3,6 +3,70 @@
 @section('titulo', 'Gestión de Proveedores')
 
 @section('contenido')
+    @push('scripts')
+    <script>
+        function confirmarEliminacion(url) {
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: 'Esta acción no se puede deshacer',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Sí, eliminar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: 'Eliminando...',
+                        text: 'Por favor, espere',
+                        allowOutsideClick: false,
+                        allowEscapeKey: false,
+                        showConfirmButton: false,
+                        didOpen: () => {
+                            Swal.showLoading();
+                        }
+                    });
+
+                    fetch(url, {
+                        method: 'DELETE',
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                            'Accept': 'application/json'
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            Swal.fire({
+                                title: 'Eliminado',
+                                text: data.message,
+                                icon: 'success',
+                                allowOutsideClick: false,
+                                allowEscapeKey: false
+                            }).then(() => {
+                                window.location.reload();
+                            });
+                        } else {
+                            Swal.fire({
+                                title: 'Error',
+                                text: data.message,
+                                icon: 'error'
+                            });
+                        }
+                    })
+                    .catch(error => {
+                        Swal.fire({
+                            title: 'Error',
+                            text: 'Ha ocurrido un error al eliminar el proveedor',
+                            icon: 'error'
+                        });
+                    });
+                }
+            });
+        }
+    </script>
+    @endpush
     <div class="container mx-auto px-4 py-8 animate-fade-in">
         <div class="bg-orange-100 p-6 rounded-xl shadow-md">
             <div class="flex justify-between items-center mb-8">
@@ -111,8 +175,8 @@
                                         Editar
                                     </a>
                                     <button type="button"
-                                        class="inline-flex items-center px-3 py-1.5 bg-orange-50 text-orange-600 rounded-lg hover:bg-orange-100 transition-all duration-200 has-tooltip"
-                                        onclick="confirmarEliminacion('{{ route('admin.providers.destroy', $provider) }}')">
+                                        onclick="confirmarEliminacion('{{ route('admin.providers.destroy', $provider) }}')" 
+                                        class="inline-flex items-center px-3 py-1.5 bg-orange-50 text-orange-600 rounded-lg hover:bg-orange-100 transition-all duration-200 has-tooltip">
                                         <i class="fas fa-trash-alt mr-1.5"></i>
                                         Eliminar
                                     </button>
