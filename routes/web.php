@@ -14,6 +14,8 @@ use App\Http\Controllers\InstaladorController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\StockController;
+use App\Http\Controllers\Admin\ProvidersController;
 
 Route::get('/', function () {
     return view('auth.login');
@@ -59,6 +61,22 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/admin/categorias/{categoria}/edit', [CategoryController::class, 'edit'])->name('admin.category.edit');
     Route::patch('/admin/categorias/{categoria}', [CategoryController::class, 'update'])->name('admin.category.update');
     Route::delete('/admin/categorias/{categoria}', [CategoryController::class, 'destroy'])->name('admin.category.destroy');
+
+    // Rutas de gestión de stock
+    Route::get('/admin/stock', [StockController::class, 'index'])->name('admin.stock.index');
+    Route::get('/admin/stock/create', [StockController::class, 'create'])->name('admin.stock.create');
+    Route::post('/admin/stock', [StockController::class, 'store'])->name('admin.stock.store');
+    Route::get('/admin/stock/{stock}/edit', [StockController::class, 'edit'])->name('admin.stock.edit');
+    Route::patch('/admin/stock/{stock}', [StockController::class, 'update'])->name('admin.stock.update');
+    Route::delete('/admin/stock/{stock}', [StockController::class, 'destroy'])->name('admin.stock.destroy');
+
+    // Rutas de gestión de proveedores
+    Route::get('/admin/providers', [ProvidersController::class, 'index'])->name('admin.providers.index');
+    Route::get('/admin/providers/create', [ProvidersController::class, 'create'])->name('admin.providers.create');
+    Route::post('/admin/providers', [ProvidersController::class, 'store'])->name('admin.providers.store');
+    Route::get('/admin/providers/{proveedor}/edit', [ProvidersController::class, 'edit'])->name('admin.providers.edit');
+    Route::patch('/admin/providers/{proveedor}', [ProvidersController::class, 'update'])->name('admin.providers.update');
+    Route::delete('/admin/providers/{proveedor}', [ProvidersController::class, 'destroy'])->name('admin.providers.destroy');
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {

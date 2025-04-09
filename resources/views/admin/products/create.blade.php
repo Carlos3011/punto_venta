@@ -74,15 +74,7 @@
                                 value="{{ old('precio_menudeo') }}" required>
                         </div>
 
-                        <div class="form-group">
-                            <label for="stock" class="block text-sm font-medium text-gray-700 flex items-center gap-2">
-                                <i class="fas fa-cubes text-blue-500"></i>
-                                Stock
-                            </label>
-                            <input type="number" name="stock" id="stock"
-                                class="mt-2 block w-full rounded-lg border-2 border-gray-200 shadow-sm focus:border-orange-500 focus:ring-orange-500 transition-all duration-300 hover:border-orange-300 p-3 @error('stock') border-red-500 @enderror"
-                                value="{{ old('stock') }}" required>
-                        </div>
+
 
                         <div class="form-group">
                             <label for="estado" class="block text-sm font-medium text-gray-700 flex items-center gap-2">

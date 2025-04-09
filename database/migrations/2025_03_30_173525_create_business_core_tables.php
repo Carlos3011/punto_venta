@@ -41,7 +41,6 @@ return new class extends Migration {
             $table->string('nombre');
             $table->string('código')->unique();
             $table->text('descripción');
-            $table->integer('stock');
             $table->decimal('precio_mayoreo', 10, 2);
             $table->decimal('precio_menudeo', 10, 2);
             $table->string('estado');

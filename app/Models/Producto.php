@@ -14,9 +14,8 @@ class Producto extends Model
 
     protected $fillable = [
         'nombre',
-        'código',
-        'descripción',
-        'stock',
+        'codigo',
+        'descripcion',
         'precio_mayoreo',
         'precio_menudeo',
         'estado',
@@ -48,11 +47,7 @@ class Producto extends Model
         return $this->hasMany(VentaDetalle::class);
     }
 
-    /**
-     * Verifica si el producto tiene stock disponible
-     */
-    public function tieneStock($cantidad = 1)
-    {
-        return $this->stock >= $cantidad;
-    }
+    
+
+
 }
