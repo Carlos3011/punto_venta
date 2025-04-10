@@ -5,9 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\DB;
 
 class Producto extends Model
 {
+    protected static function booted()
+    {
+        static::deleted(function ($producto) {
+            DB::statement('SET @num := 0');
+            DB::statement('UPDATE productos SET id = @num := (@num + 1)');
+            DB::statement('ALTER TABLE productos AUTO_INCREMENT = 1');
+        });
+    }
     use HasFactory, SoftDeletes;
 
     protected $table = 'productos';
