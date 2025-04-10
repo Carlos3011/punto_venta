@@ -74,9 +74,35 @@ class ProvidersController extends Controller
 
     public function destroy(Proveedor $proveedor)
     {
-        $proveedor->delete();
+        try {
+            // Verificar si el proveedor existe
+            if (!$proveedor) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Proveedor no encontrado'
+                ], 404);
+            }
 
-        return redirect()->route('admin.providers.index')
-            ->with('success', 'Proveedor eliminado exitosamente.');
+            // Verificar si tiene productos asociados
+            if ($proveedor->productos()->exists()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'No se puede eliminar el proveedor porque tiene productos asociados'
+                ], 400);
+            }
+
+            // Eliminar el proveedor
+            $proveedor->delete();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Proveedor eliminado exitosamente'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error al eliminar el proveedor: ' . $e->getMessage()
+            ], 500);
+        }
     }
 }

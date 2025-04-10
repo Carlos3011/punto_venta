@@ -57,9 +57,27 @@ class StockController extends Controller
 
     public function destroy(Stock $stock)
     {
-        $stock->delete();
+        try {
+            // Verificar si el movimiento de stock existe
+            if (!$stock) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Movimiento de stock no encontrado'
+                ], 404);
+            }
 
-        return redirect()->route('admin.stock.index')
-            ->with('success', 'Movimiento de stock eliminado exitosamente.');
+            // Eliminar el movimiento de stock
+            $stock->delete();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Movimiento de stock eliminado exitosamente'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error al eliminar el movimiento de stock: ' . $e->getMessage()
+            ], 500);
+        }
     }
 }
