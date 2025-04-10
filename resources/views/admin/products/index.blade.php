@@ -99,6 +99,15 @@
                                 </a>
                             </th>
                             <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">
+                                <a href="{{ route('admin.products.index', ['order_by' => 'stock', 'direction' => request('direction') == 'asc' ? 'desc' : 'asc'] + request()->except(['order_by', 'direction'])) }}"
+                                    class="flex items-center hover:text-orange-500 transition-colors duration-200">
+                                    <i class="fas fa-boxes mr-2 text-orange-400"></i>Stock
+                                    @if(request('order_by') == 'stock')
+                                        <i class="fas fa-sort-{{ request('direction') == 'asc' ? 'up' : 'down' }} ml-2"></i>
+                                    @endif
+                                </a>
+                            </th>
+                            <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">
                                 <a href="{{ route('admin.products.index', ['order_by' => 'descripción', 'direction' => request('direction') == 'asc' ? 'desc' : 'asc'] + request()->except(['order_by', 'direction'])) }}"
                                     class="flex items-center hover:text-orange-500 transition-colors duration-200">
                                     <i class="fas fa-align-left mr-2 text-orange-400"></i>Descripción
@@ -126,6 +135,9 @@
                                 </a>
                             </th>
                             <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">
+                                <i class="fas fa-truck mr-2 text-orange-400"></i>Proveedor
+                            </th>
+                            <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">
                                 <i class="fas fa-cogs mr-2 text-orange-400"></i>Acciones
                             </th>
                         </tr>
@@ -143,6 +155,11 @@
                                 </td>
 
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ $product->código }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                                    <span class="px-4 py-1.5 bg-gradient-to-r from-purple-500 to-purple-600 text-white rounded-full text-xs font-semibold shadow-sm">
+                                        {{ number_format($product->stock_actual) }} unidades
+                                    </span>
+                                </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ Str::limit($product->descripción, 50) }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
                                     <span class="px-4 py-1.5 bg-gradient-to-r {{ $product->estado === 'activo' ? 'from-green-500 to-green-600' : 'from-red-500 to-red-600' }} text-white rounded-full text-xs font-semibold shadow-sm">
@@ -153,6 +170,17 @@
                                     <span class="px-4 py-1.5 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-full text-xs font-semibold shadow-sm">
                                         {{ $product->categoria->nombre }}
                                     </span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                                    @if($product->proveedores->isNotEmpty())
+                                        <span class="px-4 py-1.5 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-full text-xs font-semibold shadow-sm">
+                                            {{ $product->proveedores->first()->nombre }}
+                                        </span>
+                                    @else
+                                        <span class="px-4 py-1.5 bg-gradient-to-r from-gray-400 to-gray-500 text-white rounded-full text-xs font-semibold shadow-sm">
+                                            Sin proveedor
+                                        </span>
+                                    @endif
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-3">
                                     <a href="{{ route('admin.products.edit', $product) }}"

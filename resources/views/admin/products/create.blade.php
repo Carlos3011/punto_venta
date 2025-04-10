@@ -121,6 +121,96 @@
                             </select>
                         </div>
                     </div>
+
+                    <!-- Sección de Proveedor -->
+                    <div class="md:col-span-2 mt-8">
+                        <div class="bg-gray-50 rounded-lg p-6 border-2 border-gray-200">
+                            <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center gap-2">
+                                <i class="fas fa-truck text-blue-500"></i>
+                                Información del Proveedor
+                            </h2>
+                            
+                            <div class="mb-6">
+                                <label class="block text-sm font-medium text-gray-700 mb-3">Seleccione una opción:</label>
+                                <div class="space-y-3">
+                                    <label class="inline-flex items-center cursor-pointer">
+                                        <input type="radio" name="proveedor_option" value="existente" 
+                                            class="form-radio text-orange-500 focus:ring-orange-500" 
+                                            {{ old('proveedor_option', 'existente') == 'existente' ? 'checked' : '' }}>
+                                        <span class="ml-2">Seleccionar proveedor existente</span>
+                                    </label>
+                                    <label class="inline-flex items-center cursor-pointer">
+                                        <input type="radio" name="proveedor_option" value="nuevo" 
+                                            class="form-radio text-orange-500 focus:ring-orange-500"
+                                            {{ old('proveedor_option') == 'nuevo' ? 'checked' : '' }}>
+                                        <span class="ml-2">Crear nuevo proveedor</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Selector de Proveedor Existente -->
+                            <div id="proveedor-existente" class="mb-4">
+                                <div class="form-group">
+                                    <label for="proveedor_id" class="block text-sm font-medium text-gray-700 flex items-center gap-2">
+                                        <i class="fas fa-user-tie text-blue-500"></i>
+                                        Seleccionar Proveedor
+                                    </label>
+                                    <select name="proveedor_id" id="proveedor_id"
+                                        class="mt-2 block w-full rounded-lg border-2 border-gray-200 shadow-sm focus:border-orange-500 focus:ring-orange-500 transition-all duration-300 hover:border-orange-300 p-3">
+                                        <option value="">Seleccione un proveedor</option>
+                                        @foreach($proveedores as $proveedor)
+                                            <option value="{{ $proveedor->id }}" {{ old('proveedor_id') == $proveedor->id ? 'selected' : '' }}>
+                                                {{ $proveedor->nombre }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Formulario Nuevo Proveedor -->
+                            <div id="nuevo-proveedor" class="space-y-4">
+                                <div class="form-group">
+                                    <label for="proveedor_nombre" class="block text-sm font-medium text-gray-700 flex items-center gap-2">
+                                        <i class="fas fa-building text-blue-500"></i>
+                                        Nombre del Proveedor
+                                    </label>
+                                    <input type="text" name="proveedor_nombre" id="proveedor_nombre"
+                                        class="mt-2 block w-full rounded-lg border-2 border-gray-200 shadow-sm focus:border-orange-500 focus:ring-orange-500 transition-all duration-300 hover:border-orange-300 p-3"
+                                        value="{{ old('proveedor_nombre') }}">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="proveedor_contacto" class="block text-sm font-medium text-gray-700 flex items-center gap-2">
+                                        <i class="fas fa-user text-blue-500"></i>
+                                        Contacto
+                                    </label>
+                                    <input type="text" name="proveedor_contacto" id="proveedor_contacto"
+                                        class="mt-2 block w-full rounded-lg border-2 border-gray-200 shadow-sm focus:border-orange-500 focus:ring-orange-500 transition-all duration-300 hover:border-orange-300 p-3"
+                                        value="{{ old('proveedor_contacto') }}">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="proveedor_teléfono" class="block text-sm font-medium text-gray-700 flex items-center gap-2">
+                                        <i class="fas fa-phone text-blue-500"></i>
+                                        Teléfono
+                                    </label>
+                                    <input type="text" name="proveedor_teléfono" id="proveedor_teléfono"
+                                        class="mt-2 block w-full rounded-lg border-2 border-gray-200 shadow-sm focus:border-orange-500 focus:ring-orange-500 transition-all duration-300 hover:border-orange-300 p-3"
+                                        value="{{ old('proveedor_teléfono') }}">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="proveedor_email" class="block text-sm font-medium text-gray-700 flex items-center gap-2">
+                                        <i class="fas fa-envelope text-blue-500"></i>
+                                        Email
+                                    </label>
+                                    <input type="email" name="proveedor_email" id="proveedor_email"
+                                        class="mt-2 block w-full rounded-lg border-2 border-gray-200 shadow-sm focus:border-orange-500 focus:ring-orange-500 transition-all duration-300 hover:border-orange-300 p-3"
+                                        value="{{ old('proveedor_email') }}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="flex justify-end space-x-4">
@@ -133,4 +223,40 @@
             </form>
         </div>
     </div>
+@section('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const proveedorExistente = document.getElementById('proveedor-existente');
+    const nuevoProveedor = document.getElementById('nuevo-proveedor');
+    const proveedorId = document.getElementById('proveedor_id');
+    const proveedorNombre = document.getElementById('proveedor_nombre');
+    const radios = document.getElementsByName('proveedor_option');
+
+    function toggleProveedorForms() {
+        const selectedOption = document.querySelector('input[name="proveedor_option"]:checked').value;
+        
+        if (selectedOption === 'existente') {
+            proveedorExistente.style.display = 'block';
+            nuevoProveedor.style.display = 'none';
+            proveedorId.required = true;
+            proveedorNombre.required = false;
+        } else {
+            proveedorExistente.style.display = 'none';
+            nuevoProveedor.style.display = 'block';
+            proveedorId.required = false;
+            proveedorNombre.required = true;
+        }
+    }
+
+    // Agregar event listeners a los radio buttons
+    radios.forEach(radio => {
+        radio.addEventListener('change', toggleProveedorForms);
+    });
+
+    // Ejecutar la función al cargar la página para establecer el estado inicial
+    toggleProveedorForms();
+});
+</script>
+@endsection
+
 @endsection

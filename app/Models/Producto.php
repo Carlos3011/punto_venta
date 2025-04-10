@@ -47,7 +47,19 @@ class Producto extends Model
         return $this->hasMany(VentaDetalle::class);
     }
 
-    
+    /**
+     * Obtiene los movimientos de stock de este producto
+     */
+    public function stock()
+    {
+        return $this->hasMany(Stock::class);
+    }
 
-
+    /**
+     * Calcula el stock actual del producto
+     */
+    public function getStockActualAttribute()
+    {
+        return $this->stock()->sum('cantidad');
+    }
 }

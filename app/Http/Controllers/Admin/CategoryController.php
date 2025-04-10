@@ -11,7 +11,7 @@ class CategoryController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Categoria::query();
+        $query = Categoria::withCount('productos');
 
         if ($request->has('search')) {
             $searchTerm = $request->search;

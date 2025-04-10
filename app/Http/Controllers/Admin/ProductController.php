@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Producto;
 use App\Models\Categoria;
+use App\Models\Proveedor;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 
@@ -12,7 +13,7 @@ class ProductController extends Controller
 {
     public function index(Request $request)
 {
-    $products = Producto::with(['categoria', 'proveedores'])
+    $products = Producto::with(['categoria', 'proveedores', 'stock'])
         ->select('id', 'nombre', 'código', 'descripción', 'precio_mayoreo', 'precio_menudeo', 'estado', 'categoria_id')
         ->when($request->search, function ($query, $search) {
             $query->where(function ($q) use ($search) {
@@ -24,8 +25,17 @@ class ProductController extends Controller
             $query->where('categoria_id', $categoria_id);
         })
         ->when($request->order_by && $request->direction, function ($query) use ($request) {
-            $query->orderBy($request->order_by, $request->direction);
+            if ($request->order_by === 'stock') {
+                $query->withCount(['stock as stock_total' => function($query) {
+                    $query->select(\DB::raw('SUM(cantidad)'));
+                }])->orderBy('stock_total', $request->direction);
+            } else {
+                $query->orderBy($request->order_by, $request->direction);
+            }
         })
+        ->withCount(['stock as stock_actual' => function($query) {
+            $query->select(\DB::raw('SUM(cantidad)'));
+        }])
         ->paginate($request->per_page ?? 10);
 
     $categorias = Categoria::all();
@@ -36,13 +46,15 @@ class ProductController extends Controller
     public function create()
     {
         $categorias = Categoria::all();
-        return view('admin.products.create', compact('categorias'));
+        $proveedores = Proveedor::all();
+        return view('admin.products.create', compact('categorias', 'proveedores'));
     }
 
     public function edit(Producto $producto)
     {
         $categorias = Categoria::all();
-        return view('admin.products.edit', compact('producto', 'categorias'));
+        $proveedores = Proveedor::all();
+        return view('admin.products.edit', compact('producto', 'categorias', 'proveedores'));
     }
 
     public function destroy(Producto $producto)
@@ -75,33 +87,30 @@ class ProductController extends Controller
     {
         $request->validate([
             'nombre' => ['required', 'string', 'max:255'],
-            'código' => ['required', 'string', 'max:50', 'unique:productos,código,'.$request->id],
+            'código' => ['required', 'string', 'max:50', 'unique:productos,código'],
             'descripción' => ['required', 'string'],
             'precio_mayoreo' => ['required', 'numeric', 'min:0'],
             'precio_menudeo' => ['required', 'numeric', 'min:0'],
             'categoria_id' => ['required', 'exists:categorias,id'],
-            'estado' => ['required', 'string', 'in:activo,inactivo']
+            'estado' => ['required', 'string', 'in:activo,inactivo'],
+            'proveedor_option' => ['required', 'string', 'in:existente,nuevo'],
+            'proveedor_id' => ['required_if:proveedor_option,existente', 'exists:proveedores,id', 'nullable'],
+            'proveedor_nombre' => ['required_if:proveedor_option,nuevo', 'string', 'max:255', 'nullable'],
+            'proveedor_contacto' => ['required_if:proveedor_option,nuevo', 'string', 'max:255', 'nullable'],
+            'proveedor_teléfono' => ['required_if:proveedor_option,nuevo', 'string', 'max:20', 'nullable'],
+            'proveedor_email' => ['required_if:proveedor_option,nuevo', 'email', 'max:255', 'nullable'],
+            'proveedor_option' => ['required', 'string', 'in:existente,nuevo'],
+            'proveedor_id' => ['required_if:proveedor_option,existente', 'exists:proveedores,id', 'nullable'],
+            'proveedor_nombre' => ['required_if:proveedor_option,nuevo', 'string', 'max:255', 'nullable'],
+            'proveedor_contacto' => ['required_if:proveedor_option,nuevo', 'string', 'max:255', 'nullable'],
+            'proveedor_teléfono' => ['required_if:proveedor_option,nuevo', 'string', 'max:20', 'nullable'],
+            'proveedor_email' => ['required_if:proveedor_option,nuevo', 'email', 'max:255', 'nullable']
         ]);
 
         try {
-            // Obtener todos los IDs existentes (incluyendo los eliminados)
-            $existingIds = Producto::withTrashed()
-                ->orderBy('id')
-                ->pluck('id')
-                ->toArray();
-            
-            // Encontrar el primer ID disponible
-            $newId = 1;
-            foreach ($existingIds as $id) {
-                if ($id == $newId) {
-                    $newId++;
-                } else if ($id > $newId) {
-                    break;
-                }
-            }
-            
-            // Crear el nuevo producto con el ID disponible
-            $producto = new Producto([
+            \DB::beginTransaction();
+
+            $producto = Producto::create([
                 'nombre' => $request->nombre,
                 'código' => $request->código,
                 'descripción' => $request->descripción,
@@ -110,9 +119,20 @@ class ProductController extends Controller
                 'categoria_id' => $request->categoria_id,
                 'estado' => $request->estado
             ]);
-            $producto->id = $newId;
-            $producto->save();
 
+            if ($request->proveedor_option === 'nuevo') {
+                $proveedor = Proveedor::create([
+                    'nombre' => $request->proveedor_nombre,
+                    'contacto' => $request->proveedor_contacto,
+                    'teléfono' => $request->proveedor_teléfono,
+                    'email' => $request->proveedor_email
+                ]);
+                $producto->proveedores()->attach($proveedor->id);
+            } else {
+                $producto->proveedores()->attach($request->proveedor_id);
+            }
+
+            \DB::commit();
             return redirect()->route('admin.products.index')
                 ->with('success', 'Producto creado exitosamente.');
         } catch (\Exception $e) {
@@ -131,7 +151,13 @@ class ProductController extends Controller
             'precio_mayoreo' => ['required', 'numeric', 'min:0'],
             'precio_menudeo' => ['required', 'numeric', 'min:0'],
             'categoria_id' => ['required', 'exists:categorias,id'],
-            'estado' => ['required', 'string', 'in:activo,inactivo']
+            'estado' => ['required', 'string', 'in:activo,inactivo'],
+            'proveedor_option' => ['required', 'string', 'in:existente,nuevo'],
+            'proveedor_id' => ['required_if:proveedor_option,existente', 'exists:proveedores,id', 'nullable'],
+            'proveedor_nombre' => ['required_if:proveedor_option,nuevo', 'string', 'max:255', 'nullable'],
+            'proveedor_contacto' => ['required_if:proveedor_option,nuevo', 'string', 'max:255', 'nullable'],
+            'proveedor_teléfono' => ['required_if:proveedor_option,nuevo', 'string', 'max:20', 'nullable'],
+            'proveedor_email' => ['required_if:proveedor_option,nuevo', 'email', 'max:255', 'nullable']
         ]);
 
         $productoData = [
@@ -145,7 +171,23 @@ class ProductController extends Controller
         ];
 
         try {
+            \DB::beginTransaction();
+
             $producto->update($productoData);
+
+            if ($request->proveedor_option === 'nuevo') {
+                $proveedor = Proveedor::create([
+                    'nombre' => $request->proveedor_nombre,
+                    'contacto' => $request->proveedor_contacto,
+                    'teléfono' => $request->proveedor_teléfono,
+                    'email' => $request->proveedor_email
+                ]);
+                $producto->proveedores()->sync([$proveedor->id]);
+            } else {
+                $producto->proveedores()->sync([$request->proveedor_id]);
+            }
+
+            \DB::commit();
 
             return redirect()->route('admin.products.index')
                 ->with('success', 'Producto actualizado exitosamente.');

@@ -120,6 +120,82 @@
                             <span class="text-red-500 text-sm">{{ $message }}</span>
                         @enderror
                     </div>
+
+                    <div class="form-group col-span-2">
+                        <label class="block text-sm font-medium text-gray-700 flex items-center gap-2 mb-4">
+                            <i class="fas fa-truck text-blue-500"></i>
+                            Proveedor
+                        </label>
+                        
+                        <div class="space-y-4">
+                            <div class="flex items-center space-x-4">
+                                <input type="radio" name="proveedor_option" id="proveedor_existente" value="existente" 
+                                    class="text-orange-500 focus:ring-orange-500" 
+                                    {{ $producto->proveedores->isEmpty() ? '' : 'checked' }}>
+                                <label for="proveedor_existente" class="text-sm text-gray-700">Seleccionar proveedor existente</label>
+                            </div>
+
+                            <div id="proveedor_existente_section" class="ml-8">
+                                <select name="proveedor_id" id="proveedor_id"
+                                    class="w-full rounded-lg border-2 border-gray-200 shadow-sm focus:border-orange-500 focus:ring-orange-500 transition-all duration-300 hover:border-orange-300 p-3 @error('proveedor_id') border-red-500 @enderror">
+                                    <option value="">Seleccione un proveedor</option>
+                                    @foreach($proveedores as $proveedor)
+                                        <option value="{{ $proveedor->id }}" {{ $producto->proveedores->contains($proveedor->id) ? 'selected' : '' }}>
+                                            {{ $proveedor->nombre }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @error('proveedor_id')
+                                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                                @enderror
+                            </div>
+
+                            <div class="flex items-center space-x-4">
+                                <input type="radio" name="proveedor_option" id="proveedor_nuevo" value="nuevo" 
+                                    class="text-orange-500 focus:ring-orange-500"
+                                    {{ $producto->proveedores->isEmpty() ? 'checked' : '' }}>
+                                <label for="proveedor_nuevo" class="text-sm text-gray-700">Crear nuevo proveedor</label>
+                            </div>
+
+                            <div id="proveedor_nuevo_section" class="ml-8 space-y-4">
+                                <div>
+                                    <label for="proveedor_nombre" class="block text-sm font-medium text-gray-700">Nombre</label>
+                                    <input type="text" name="proveedor_nombre" id="proveedor_nombre"
+                                        class="mt-1 block w-full rounded-lg border-2 border-gray-200 shadow-sm focus:border-orange-500 focus:ring-orange-500 transition-all duration-300 hover:border-orange-300 p-3 @error('proveedor_nombre') border-red-500 @enderror">
+                                    @error('proveedor_nombre')
+                                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                                    @enderror
+                                </div>
+
+                                <div>
+                                    <label for="proveedor_contacto" class="block text-sm font-medium text-gray-700">Contacto</label>
+                                    <input type="text" name="proveedor_contacto" id="proveedor_contacto"
+                                        class="mt-1 block w-full rounded-lg border-2 border-gray-200 shadow-sm focus:border-orange-500 focus:ring-orange-500 transition-all duration-300 hover:border-orange-300 p-3 @error('proveedor_contacto') border-red-500 @enderror">
+                                    @error('proveedor_contacto')
+                                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                                    @enderror
+                                </div>
+
+                                <div>
+                                    <label for="proveedor_teléfono" class="block text-sm font-medium text-gray-700">Teléfono</label>
+                                    <input type="text" name="proveedor_teléfono" id="proveedor_teléfono"
+                                        class="mt-1 block w-full rounded-lg border-2 border-gray-200 shadow-sm focus:border-orange-500 focus:ring-orange-500 transition-all duration-300 hover:border-orange-300 p-3 @error('proveedor_teléfono') border-red-500 @enderror">
+                                    @error('proveedor_teléfono')
+                                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                                    @enderror
+                                </div>
+
+                                <div>
+                                    <label for="proveedor_email" class="block text-sm font-medium text-gray-700">Email</label>
+                                    <input type="email" name="proveedor_email" id="proveedor_email"
+                                        class="mt-1 block w-full rounded-lg border-2 border-gray-200 shadow-sm focus:border-orange-500 focus:ring-orange-500 transition-all duration-300 hover:border-orange-300 p-3 @error('proveedor_email') border-red-500 @enderror">
+                                    @error('proveedor_email')
+                                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="flex justify-end space-x-4">
