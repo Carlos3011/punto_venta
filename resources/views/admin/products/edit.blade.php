@@ -45,30 +45,32 @@
                         @enderror
                     </div>
 
-                    <div class="form-group">
-                        <label for="precio_mayoreo" class="block text-sm font-medium text-gray-700 flex items-center gap-2">
-                            <i class="fas fa-dollar-sign text-blue-500"></i>
-                            Precio Mayoreo
-                        </label>
-                        <input type="number" step="0.01" name="precio_mayoreo" id="precio_mayoreo"
-                            class="mt-2 block w-full rounded-lg border-2 border-gray-200 shadow-sm focus:border-orange-500 focus:ring-orange-500 transition-all duration-300 hover:border-orange-300 p-3 @error('precio_mayoreo') border-red-500 @enderror"
-                            value="{{ $producto->precio_mayoreo }}" required>
-                        @error('precio_mayoreo')
-                            <span class="text-red-500 text-sm">{{ $message }}</span>
-                        @enderror
-                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="form-group">
+                            <label for="precio_mayoreo" class="block text-sm font-medium text-gray-700 flex items-center gap-2">
+                                <i class="fas fa-dollar-sign text-blue-500"></i>
+                                Precio Mayoreo
+                            </label>
+                            <input type="number" step="0.01" name="precio_mayoreo" id="precio_mayoreo"
+                                class="mt-2 block w-full rounded-lg border-2 border-gray-200 shadow-sm focus:border-orange-500 focus:ring-orange-500 transition-all duration-300 hover:border-orange-300 p-3 @error('precio_mayoreo') border-red-500 @enderror"
+                                value="{{ $producto->precio_mayoreo }}" required>
+                            @error('precio_mayoreo')
+                                <span class="text-red-500 text-sm">{{ $message }}</span>
+                            @enderror
+                        </div>
 
-                    <div class="form-group">
-                        <label for="precio_menudeo" class="block text-sm font-medium text-gray-700 flex items-center gap-2">
-                            <i class="fas fa-dollar-sign text-blue-500"></i>
-                            Precio Menudeo
-                        </label>
-                        <input type="number" step="0.01" name="precio_menudeo" id="precio_menudeo"
-                            class="mt-2 block w-full rounded-lg border-2 border-gray-200 shadow-sm focus:border-orange-500 focus:ring-orange-500 transition-all duration-300 hover:border-orange-300 p-3 @error('precio_menudeo') border-red-500 @enderror"
-                            value="{{ $producto->precio_menudeo }}" required>
-                        @error('precio_menudeo')
-                            <span class="text-red-500 text-sm">{{ $message }}</span>
-                        @enderror
+                        <div class="form-group">
+                            <label for="precio_menudeo" class="block text-sm font-medium text-gray-700 flex items-center gap-2">
+                                <i class="fas fa-dollar-sign text-blue-500"></i>
+                                Precio Menudeo
+                            </label>
+                            <input type="number" step="0.01" name="precio_menudeo" id="precio_menudeo"
+                                class="mt-2 block w-full rounded-lg border-2 border-gray-200 shadow-sm focus:border-orange-500 focus:ring-orange-500 transition-all duration-300 hover:border-orange-300 p-3 @error('precio_menudeo') border-red-500 @enderror"
+                                value="{{ $producto->precio_menudeo }}" required>
+                            @error('precio_menudeo')
+                                <span class="text-red-500 text-sm">{{ $message }}</span>
+                            @enderror
+                        </div>
                     </div>
 
 

@@ -1,6 +1,5 @@
 <?php
 
-
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -10,6 +9,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AlmacenistaController;
 use App\Http\Controllers\CajeroController;
 use App\Http\Controllers\InstaladorController;
+use App\Http\Controllers\ReporteVentaController;
 
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\CategoryController;
@@ -77,6 +77,30 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/admin/providers/{proveedor}/edit', [ProvidersController::class, 'edit'])->name('admin.providers.edit');
     Route::patch('/admin/providers/{proveedor}', [ProvidersController::class, 'update'])->name('admin.providers.update');
     Route::delete('/admin/providers/{proveedor}', [ProvidersController::class, 'destroy'])->name('admin.providers.destroy');
+
+    // Rutas de reportes de ventas
+    Route::get('/admin/sales', [ReporteVentaController::class, 'index'])->name('admin.sales.index');
+    Route::get('/admin/sales/create', [ReporteVentaController::class, 'create'])->name('admin.sales.create');
+    Route::post('/admin/sales', [ReporteVentaController::class, 'store'])->name('admin.sales.store');
+    Route::get('/admin/sales/data', [ReporteVentaController::class, 'obtenerDatos'])->name('admin.sales.data');
+    Route::get('/admin/sales/export/excel', [ReporteVentaController::class, 'exportarExcel'])->name('admin.sales.export.excel');
+    Route::get('/admin/sales/export/pdf', [ReporteVentaController::class, 'exportarPDF'])->name('admin.sales.export.pdf');
+
+// Rutas de gestión de clientes
+Route::get('/admin/clients', [\App\Http\Controllers\Admin\ClientController::class, 'index'])->name('admin.clients.index');
+Route::get('/admin/clients/create', [\App\Http\Controllers\Admin\ClientController::class, 'create'])->name('admin.clients.create');
+Route::post('/admin/clients', [\App\Http\Controllers\Admin\ClientController::class, 'store'])->name('admin.clients.store');
+Route::get('/admin/clients/{client}/edit', [\App\Http\Controllers\Admin\ClientController::class, 'edit'])->name('admin.clients.edit');
+Route::put('/admin/clients/{client}', [\App\Http\Controllers\Admin\ClientController::class, 'update'])->name('admin.clients.update');
+Route::delete('/admin/clients/{client}', [\App\Http\Controllers\Admin\ClientController::class, 'destroy'])->name('admin.clients.destroy');
+
+// Rutas para la administración de caja
+Route::get('/admin/cash', [\App\Http\Controllers\Admin\CashController::class, 'index'])->name('admin.cash.index');
+Route::get('/admin/cash/create', [\App\Http\Controllers\Admin\CashController::class, 'create'])->name('admin.cash.create');
+Route::post('/admin/cash/close', [\App\Http\Controllers\Admin\CashController::class, 'close'])->name('admin.cash.close');
+Route::get('/admin/cash/{caja}/edit', [\App\Http\Controllers\Admin\CashController::class, 'edit'])->name('admin.cash.edit');
+Route::put('/admin/cash/{caja}', [\App\Http\Controllers\Admin\CashController::class, 'update'])->name('admin.cash.update');
+Route::delete('/admin/cash/{caja}', [\App\Http\Controllers\Admin\CashController::class, 'destroy'])->name('admin.cash.destroy');
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {

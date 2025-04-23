@@ -10,6 +10,8 @@ class Caja extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $table = 'caja';
+
     protected $fillable = [
         'usuario_id',
         'fecha',

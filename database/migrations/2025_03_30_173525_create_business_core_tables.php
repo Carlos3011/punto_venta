@@ -14,8 +14,9 @@ return new class extends Migration {
             $table->id();
             $table->string('nombre');
             $table->string('teléfono');
+            $table->string('email');
             $table->string('rfc')->nullable();
-            $table->string('tipo_cliente');
+            $table->string('dirección');
             $table->timestamps();
             $table->softDeletes();
         });
